@@ -48,7 +48,6 @@ void Die(char *mess) {
 }
 void elfIPCServer::HandleClient(int sock) {
 
-<<<<<<< HEAD
 	char buffer[BUFFSIZE];
 	int received = -1;
 	/* Receive message */
@@ -65,22 +64,6 @@ void elfIPCServer::HandleClient(int sock) {
 		/* Check for more data */
 		if ((received = recv(sock, buffer, BUFFSIZE, 0)) < 0) {
 			Die("Failed to receive additional bytes from client");
-=======
-	while (1) {
-		int i;
-		CHK2(epoll_events_count,epoll_wait(epfd, events, EPOLL_SIZE, EPOLL_RUN_TIMEOUT));
-		tStart = clock();
-		for (i = 0; i < epoll_events_count; i++) {
-			if (events[i].data.fd == listener) {
-				CHK2(client,
-						accept(listener, (struct sockaddr *) &client_addr, &client_len));
-				setnonblocking(client);
-				ev.data.fd = client;
-				CHK(epoll_ctl(epfd, EPOLL_CTL_ADD, client, &ev));
-			} else {
-				CHK2(res, handle_message(events[i].data.fd,&events[i]));
-			}
->>>>>>> origin/master
 		}
 	}
 	close(sock);

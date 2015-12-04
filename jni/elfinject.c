@@ -452,8 +452,6 @@ int inject_remote_process(pid_t target_pid, const char *library_path,const char 
 			"[+] Get imports: dlopen: %x, dlsym: %x, dlclose: %x, dlerror: %x\n",
 			dlopen_addr, dlsym_addr, dlclose_addr, dlerror_addr);
 
-<<<<<<< HEAD
-	//ï¿½ï¿½soï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½Ð´ï¿½ëµ½ï¿½Ú´æµ±ï¿½ï¿½
 	ptrace_writedata(target_pid, map_base + 0x300,
 			cydia_path,
 			strlen(cydia_path) + 1);
@@ -477,32 +475,6 @@ int inject_remote_process(pid_t target_pid, const char *library_path,const char 
 	void * libsubstrate = ptrace_retval(&regs);
 
 	DEBUG_PRINT( "[+] Get libsubstrate: %x\n", libsubstrate);
-=======
-//	//°ÑsoÕâ¸ö×Ö·û´®Ð´Èëµ½ÄÚ´æµ±ÖÐ
-//	ptrace_writedata(target_pid, map_base + 0x300,
-//			"/data/local/libsubstrate.so",
-//			strlen("/data/local/libsubstrate.so") + 1);
-//
-//	parameters[0] = map_base + 0x300;
-//	parameters[1] = RTLD_NOW | RTLD_GLOBAL;
-//
-//	//µ÷ÓÃdlopen°ÑËü¼ÓÔØ½øÀ´
-//	if (ptrace_call_wrapper(target_pid, "dlopen", dlopen_addr, parameters, 2,
-//			&regs) == -1) {
-//		DEBUG_PRINT("can't call dlopen in target_pid");
-//		if (initlog()) {
-//			fprintf(log_file, "[+] can't call dlopen in target_pid %s ",
-//					strerror(errno));
-//			fclose(log_file);
-//		}
-//		goto exit;
-//	}
-//
-//	//µÃµ½soµÄµØÖ·
-//	void * libsubstrate = ptrace_retval(&regs);
-//
-//	DEBUG_PRINT( "[+] Get libsubstrate: %x\n", libsubstrate);
->>>>>>> origin/master
 
 	ptrace_writedata(target_pid, map_base, library_path,
 			strlen(library_path) + 1);
@@ -612,7 +584,7 @@ void check_selinux(){
 }
 int main(int argc, char** argv) {
 
-<<<<<<< HEAD
+
 	char * process_name ;//="sh.lilith.dgame.mi";
 
 	//char * process_name = "system_server";
@@ -620,11 +592,6 @@ int main(int argc, char** argv) {
 	char * so_path ;
 	char * cydia_path ;
 	char * speed;
-=======
-	//char * process_name = "com.szym.lhyd.chs.mi";
-	check_selinux();
-	char * process_name = "system_server";
->>>>>>> origin/master
 
 	//char * so_path = "/data/local/libspeed.so";
 	if (argc == 5) {
@@ -660,20 +627,11 @@ int main(int argc, char** argv) {
 			speed, strlen(speed));
 
 	if (ret == 0) {
-<<<<<<< HEAD
 		printf("SUCCESS \n");
 		return 0;
 	} else {
 		printf("HOOK FAILED \n");
 		return -1;
-=======
-		printf("SUCCESS");
-	} else if(ret = -2) {
-		printf("HOOK EXIST");
-	}else
-	{
-		printf("HOOK FAILED");
->>>>>>> origin/master
 	}
 	return 0;
 }

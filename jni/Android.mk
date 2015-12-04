@@ -12,16 +12,13 @@ include $(BUILD_EXECUTABLE)
 
 include $(CLEAR_VARS)
 
-<<<<<<< HEAD
 #LOCAL_MODULE:= inject
 #LOCAL_CPP_EXTENSION := .cpp
 #LOCAL_SRC_FILES := inject.cpp \
 				   ElfIPCServer.cpp \
-=======
 LOCAL_MODULE:= inject
-LOCAL_CPP_EXTENSION := .cpp
-LOCAL_SRC_FILES := inject.cpp \
->>>>>>> origin/master
+#LOCAL_CPP_EXTENSION := .cpp
+#LOCAL_SRC_FILES := inject.cpp \
 				   ElfTransaction.cpp \
 				   
 #LOCAL_CFLAGS    := -I./jni/include/
@@ -30,6 +27,7 @@ LOCAL_SRC_FILES := inject.cpp \
 #include $(BUILD_SHARED_LIBRARY)
 
 #include $(CLEAR_VARS)
+
 LOCAL_MODULE:= speed
 LOCAL_CPP_EXTENSION := .cpp
 LOCAL_SRC_FILES := speed.cpp ElfIPCServer.cpp 
@@ -98,19 +96,17 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE:= testserver
 
-<<<<<<< HEAD
 LOCAL_SRC_FILES := epollserver.cpp
  
 LOCAL_LDLIBS := -llog   
-=======
+
 include $(BUILD_EXECUTABLE)
 
-include $(CLEAR_VARS)
+#include $(CLEAR_VARS)
 
-LOCAL_MODULE:= test
+#LOCAL_MODULE:= test
 
-LOCAL_SRC_FILES := test.c
-LOCAL_LDLIBS := -llog
->>>>>>> origin/master
+#LOCAL_SRC_FILES := test.c
+#LOCAL_LDLIBS := -llog
 
-include $(BUILD_SHARED_LIBRARY)
+#include $(BUILD_SHARED_LIBRARY)
