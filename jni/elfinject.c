@@ -582,6 +582,7 @@ int initlog() {
 void check_selinux(){
 
 }
+
 int main(int argc, char** argv) {
 
 
@@ -622,7 +623,9 @@ int main(int argc, char** argv) {
 		}
 		return -1;
 	}
+
 	DEBUG_PRINT("speed %s \n" ,speed);
+
 	ret = inject_remote_process(target_pid, so_path, cydia_path,"hook_entry",
 			speed, strlen(speed));
 

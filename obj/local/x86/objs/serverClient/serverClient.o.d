@@ -1,4 +1,4 @@
-obj/local/x86/objs/_serverClient/serverClient.o: jni/serverClient.cpp \
+obj/local/x86/objs/serverClient/serverClient.o: jni/serverClient.cpp \
  /Volumes/macos/Users/damotou/Documents/android-ndk-r10e/platforms/android-19/arch-x86/usr/include/sys/types.h \
  /Volumes/macos/Users/damotou/Documents/android-ndk-r10e/sources/cxx-stl/stlport/stlport/stddef.h \
  /Volumes/macos/Users/damotou/Documents/android-ndk-r10e/sources/cxx-stl/stlport/stlport/stl/_cprolog.h \

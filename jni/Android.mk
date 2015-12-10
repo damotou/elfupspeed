@@ -39,19 +39,8 @@ include $(BUILD_SHARED_LIBRARY)
 #include $(CLEAR_VARS)
 
 
-include $(CLEAR_VARS)
-LOCAL_MODULE    := lib_serverClient
-LOCAL_SRC_FILES := serverClient.cpp
-LOCAL_LDLIBS	:= -llog
-include $(BUILD_STATIC_LIBRARY)
 
-include $(CLEAR_VARS)
-LOCAL_MODULE    := lib_sharedserverClient
-LOCAL_SRC_FILES := serverClient.cpp
-LOCAL_LDLIBS	:= -llog
-LOCAL_STATIC_LIBRARIES := lib_serverClient
 
-include $(BUILD_SHARED_LIBRARY)
 
 #include $(CLEAR_VARS)
 
@@ -82,25 +71,33 @@ include $(BUILD_SHARED_LIBRARY)
 #LOCAL_SRC_FILES := changemem.cpp
 #LOCAL_LDLIBS := -llog
 #include $(BUILD_EXECUTABLE)
-include $(CLEAR_VARS)
+#include $(CLEAR_VARS)
 
-LOCAL_MODULE:= testclient
+#LOCAL_MODULE:= testclient
 
-LOCAL_SRC_FILES := testclient.cpp  serverClient.cpp
+#LOCAL_SRC_FILES := testclient.cpp  serverClient.cpp
 
-LOCAL_LDLIBS := -llog
+#LOCAL_LDLIBS := -llog
 
-include $(BUILD_EXECUTABLE)
+#include $(BUILD_EXECUTABLE)
 
-include $(CLEAR_VARS)
+#include $(CLEAR_VARS)
 
-LOCAL_MODULE:= testserver
+#LOCAL_MODULE:= testserver
 
-LOCAL_SRC_FILES := epollserver.cpp
+#LOCAL_SRC_FILES := epollserver.cpp
  
-LOCAL_LDLIBS := -llog   
+#LOCAL_LDLIBS := -llog   
 
-include $(BUILD_EXECUTABLE)
+#include $(BUILD_EXECUTABLE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE    := serverClient
+LOCAL_CPP_EXTENSION := .cpp
+LOCAL_SRC_FILES := serverClient.cpp
+LOCAL_LDLIBS	:= -llog
+
+include $(BUILD_STATIC_LIBRARY)
 
 #include $(CLEAR_VARS)
 

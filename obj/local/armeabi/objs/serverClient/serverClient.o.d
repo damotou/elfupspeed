@@ -1,5 +1,4 @@
-obj/local/armeabi/objs/_sharedserverClient/serverClient.o: \
- jni/serverClient.cpp \
+obj/local/armeabi/objs/serverClient/serverClient.o: jni/serverClient.cpp \
  /Volumes/macos/Users/damotou/Documents/android-ndk-r10e/platforms/android-19/arch-arm/usr/include/sys/types.h \
  /Volumes/macos/Users/damotou/Documents/android-ndk-r10e/sources/cxx-stl/stlport/stlport/stddef.h \
  /Volumes/macos/Users/damotou/Documents/android-ndk-r10e/sources/cxx-stl/stlport/stlport/stl/_cprolog.h \

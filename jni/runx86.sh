@@ -7,6 +7,6 @@ adb shell chmod 777 /data/local/testclient
 adb shell chmod 777 /data/local/elfinject
 adb shell chmod 777 /data/local/libspeed.so
 
-#adb shell /data/local/elfinject sh.lilith.dgame.uc 5 /data/local/libspeed.so /data/local/libsubstrate.so
+#adb shell /data/local/elfinject  com.skymoons.hqg.kpzs 5 /data/local/libspeed.so /data/local/libsubstrate.so
 
-adb shell /data/local/elfinject  com.hcg.cok.ewan.kaopu 5 /data/local/libspeed.so /data/local/libsubstrate.so
+adb shell /data/local/elfinject  com.skymoons.hqg.kpzs 5 /data/local/libspeed.so /data/local/libsubstrate.so

@@ -150,10 +150,6 @@ int serverClient::upspeed(char * package, int speed) {
 	unsigned int echolen;
 	int received = 0;
 
-	if(serverClient::speed == 0)
-	{
-		return -1;
-	}
 	/* Create the TCP socket */
 	if ((sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0) {
 		//Die("Failed to create socket");
@@ -190,98 +186,6 @@ int serverClient::upspeed(char * package, int speed) {
 		printf("%s", buffer);
 	}
 	close(sock);
-	//pthread_t pt;
-	//int err = pthread_create(&pt, NULL, startClient, NULL);
 	return 0;
-}
 
-//int serverClient::closeClient() {
-//	if (listener > 1)
-//		close(listener);
-//	return 0;
-//}
-//
-//int serverClient::sendMessageToServer(struct messagebody * mess) {
-//
-//	struct messagebody message;
-//	memset(message.functionname, 0, sizeof(message.functionname));
-//	memset(message.functionargs, 0, sizeof(message.functionargs));
-//	memset(message.othermessage, 0, sizeof(message.othermessage));
-//
-//	strcpy(message.functionname, mess->functionname);
-//	strcpy(message.functionargs, mess->functionargs);
-//	strcpy(message.othermessage, mess->othermessage);
-//	message.message_type = 1;
-//	if (listener > 1) {
-//		LOGDD("[client] send data %d  to server %d \n",
-//				sizeof(message), listener);
-//		write(listener, &message, sizeof(message));
-//		return 0;
-//	} else {
-//		return -2;
-//	}
-//	return -1;
-//}
-//
-//static void * start_thread(void *param) {
-//
-//	char recv_buf[1024];
-//	int nread = 0;
-//	int i, res;
-//	int ret;
-//	while (1) {
-//		CHK2(epoll_events_count,
-//				epoll_wait(epfd, events, EPOLL_SIZE, EPOLL_RUN_TIMEOUT));
-//		for (i = 0; i < epoll_events_count; i++) {
-//			if (events[i].data.fd == listener) {
-//				if (ev.events & EPOLLHUP) {
-//					LOGDD("[client] server closed1!: %d  \n", listener);
-//					CHK(close(listener));
-//					listener = -1;
-//					return 0;
-//				}
-//				nread = recv(listener, recv_buf, sizeof(recv_buf), 0);
-//				if (nread <= 0) {
-//					LOGDD("[client] server closed2!: %d,nread=%d\n",
-//							listener, nread);
-//
-//					listener = -1;
-//					return 0;
-//				} else {
-//					recv_buf[nread] = '\0';
-//					LOGDD("[client] recv message:%s\n", recv_buf);
-//					listener = -1;
-//					CHK(close(listener));
-//				}
-//			}
-//		}
-//	}
-//
-//	exit(0);
-//}
-//int serverClient::startClient() {
-//	pthread_t mid;
-//	CHK2(listener, socket(AF_UNIX, SOCK_STREAM, 0));
-//	setnonblocking(listener);
-//	address.sun_family = AF_UNIX;
-//	strcpy(address.sun_path, SERVER_NAME);
-//	address.sun_path[0] = 0;
-//
-//	len = strlen(SERVER_NAME) + offsetof(struct sockaddr_un, sun_path);
-//	CHK(connect(listener, (struct sockaddr*) &address, len));
-//
-//	CHK2(epfd, epoll_create(EPOLL_SIZE));
-//
-//	ev.data.fd = listener;
-//	CHK(epoll_ctl(epfd, EPOLL_CTL_ADD, listener, &ev));
-//	{
-//
-//	}
-//	ev.events = EPOLLIN | EPOLLET | EPOLLERR | EPOLLHUP;
-//	LOGDD("I AM  COMING IN START CLIENT %d", listener);
-//
-//	pthread_create(&mid, NULL, start_thread, NULL);
-//
-//	return 0;
-//
-//}
+}

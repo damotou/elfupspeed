@@ -328,6 +328,7 @@ int ElfSpeed::SetTimeScale(int result) {
 		IsHooked = 0;
 	}
 	switch (result) {
+
 	case 0:
 		g_times = 1;
 	case 1:
@@ -366,7 +367,10 @@ int ElfSpeed::SetTimeScale(int result) {
 	case -10:
 		g_times = 0.1;
 		break;
+	default:
+		g_times = 1 ;
 	}
+
 	LOGD("timescale = %d", g_times);
 	return 0;
 }
