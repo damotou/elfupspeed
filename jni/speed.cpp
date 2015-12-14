@@ -150,7 +150,6 @@ static int64_t g_clock_gettime_saved_nsecs_clk_MONO = 0;
 
 static uint64_t g_clock_gettime_saved_nsecs_clk_Real = 0;
 
-
 int new_clock_gettime(clockid_t clk_id, struct timespec *ptp) { //clk_id CLOCK_MONOTONIC=1 CLOCK_REALTIME=0
 
 	int res;
@@ -179,15 +178,16 @@ int new_clock_gettime(clockid_t clk_id, struct timespec *ptp) { //clk_id CLOCK_M
 
 			+ ptp->tv_nsec;
 
-			return 0 ;
+			return 0;
 
 		} else {
 
 			cur_nsecs = (ptp->tv_sec * 1000000000LL) + ptp->tv_nsec;
 
-			diff = cur_nsecs -g_clock_gettime_saved_nsecs_clk_MONO;
+			diff = cur_nsecs - g_clock_gettime_saved_nsecs_clk_MONO;
 
-			diff = diff +  g_times * 10;
+
+			diff = diff + g_times * 10;
 
 			ret_nsecs = g_clock_gettime_saved_nsecs_clk_MONO + diff;
 
@@ -213,7 +213,7 @@ int new_clock_gettime(clockid_t clk_id, struct timespec *ptp) { //clk_id CLOCK_M
 
 			diff = cur_nsecs - g_clock_gettime_saved_nsecs_clk_Real;
 
-			diff = diff +  g_times * 10;
+			diff = diff + g_times * 10;
 
 			ret_nsecs = g_clock_gettime_saved_nsecs_clk_Real + diff;
 
@@ -321,57 +321,15 @@ int new_clock_gettime(clockid_t clk_id, struct timespec *ptp) { //clk_id CLOCK_M
 //5.0 0x1770
 //10  0x2aF8
 
-int ElfSpeed::SetTimeScale(int result) {
+int ElfSpeed::SetTimeScale(float result) {
 
 	if (IsHooked) {
 		do_speed_hook();
 		IsHooked = 0;
 	}
-	switch (result) {
 
-	case 0:
-		g_times = 1;
-	case 1:
-		g_times = 2;
-		break;
-	case 2:
-		g_times = 3;
-		break;
-	case 3:
-		g_times = 4;
-		break;
-	case 4:
-		g_times = 5;
-		break;
-	case 5:
-		g_times = 6;
-		break;
-	case 10:
-		g_times = 10;
-		break;
-	case -1:
-		g_times = 0.5;
-		break;
-	case -2:
-		g_times = 0.4;
-		break;
-	case -3:
-		g_times = 0.33;
-		break;
-	case -4:
-		g_times = 0.25;
-		break;
-	case -5:
-		g_times = 0.2;
-		break;
-	case -10:
-		g_times = 0.1;
-		break;
-	default:
-		g_times = 1 ;
-	}
-
-	LOGD("timescale = %d", g_times);
+	g_times = result;
+	LOGD("result = %f  g_times = %f ", result, g_times);
 	return 0;
 }
 
@@ -398,7 +356,7 @@ extern "C" int hook_entry(char * arg) {
 	//int speed = atoi(arg);
 //	LOGD("Hook success, arg = %s\n", arg);
 //	LOGD("********Start hooking **********\n");
-	LOGD("Hook success, pid = %d\n", getpid());
+//	LOGD("Hook success, pid = %d\n", getpid());
 //	LOGD("Hook success, speed = %d\n", speed);
 	//����server
 	LOGD("********Start hooking **********\n");

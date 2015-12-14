@@ -9,4 +9,4 @@ adb shell chmod 777 /data/local/libspeed.so
 
 #adb shell /data/local/elfinject  com.skymoons.hqg.kpzs 5 /data/local/libspeed.so /data/local/libsubstrate.so
 
-adb shell /data/local/elfinject  com.skymoons.hqg.kpzs 5 /data/local/libspeed.so /data/local/libsubstrate.so
+adb shell /data/local/elfinject  com.xihe.lyzz.kaopu 5 /data/local/libspeed.so /data/local/libsubstrate.so

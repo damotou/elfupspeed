@@ -50,6 +50,7 @@ void elfIPCServer::HandleClient(int sock) {
 
 	char buffer[BUFFSIZE];
 	int received = -1;
+	float times = 0;
 	/* Receive message */
 	if ((received = recv(sock, buffer, BUFFSIZE, 0)) < 0) {
 		Die("Failed to receive initial bytes from client");
@@ -57,8 +58,8 @@ void elfIPCServer::HandleClient(int sock) {
 	/* Send bytes and check for more incoming data in loop */
 	while (received > 0) {
 		/* Send back received data */
-
-		elfspeed->SetTimeScale(atoi(buffer));
+		times = atof(buffer);
+		elfspeed->SetTimeScale(times);
 
 		if (send(sock, buffer, received, 0) != received) {
 			Die("Failed to send bytes to client");

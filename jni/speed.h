@@ -15,7 +15,7 @@ class ElfSpeed {
 public:
 	ElfSpeed();
 	virtual ~ElfSpeed();
-	int SetTimeScale(int result);
+	int SetTimeScale(float result);
 };
 
 #endif /* ELFTRANSACTION_H_ */
