@@ -12,7 +12,7 @@ class serverClient {
 public:
 	serverClient();
 	virtual ~serverClient();
-	int upspeed(char * package ,int speed);
+	int upspeed(char * package ,float speed);
 	static int notstart ;
 	void Die(char *mess);
 	static int pid;

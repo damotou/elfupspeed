@@ -59,6 +59,7 @@ void elfIPCServer::HandleClient(int sock) {
 	while (received > 0) {
 		/* Send back received data */
 		times = atof(buffer);
+
 		elfspeed->SetTimeScale(times);
 
 		if (send(sock, buffer, received, 0) != received) {

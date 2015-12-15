@@ -14,21 +14,14 @@
 #define LOGD(fmt, args...)  __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, fmt, ##args)
 
 int IsHooked = 1;
-static long long usersec = 0;
-static long long userusec = 0;
 
-static long long user_tvsec = 0;
-static long long user_tvnsec = 0;
+static float lastSpeed = 1.0;
 
-static long long user_0_tvsec = 0;
-static long long user_0_tvnsec = 0;
+static int IsChangeSpeed_gettimeofday = 0;
+
+static int IsChangeSpeed_gettime = 0;
 
 #define doublecap  0x3B9ACA00ull
-
-static long long usernsec = 0;
-static long usertvsec = 0;
-static int IsAddSpeed = 0;
-static int timescale = 0x3E8;
 
 long long dword_4D0B0;
 long long qword_4D0C8;
@@ -62,6 +55,11 @@ static float g_times = 1; //���ٵı���
 
 static uint64_t g_gettimeofday_saved_usecs = 0;
 
+static uint64_t g_gettimeofday_saved_usecs_last = 0;
+
+
+static uint64_t g_gettimeofday_saved_usecs_real = 0;
+
 int new_gettimeofday(struct timeval *ptv, struct timezone *ptz) {
 
 	int res;
@@ -82,7 +80,8 @@ int new_gettimeofday(struct timeval *ptv, struct timezone *ptz) {
 
 	if (g_gettimeofday_saved_usecs == 0) {
 
-		g_gettimeofday_saved_usecs = (ptv->tv_sec * 1000000LL) + ptv->tv_usec;
+		g_gettimeofday_saved_usecs = (ptv->tv_sec * 1000000LL) + ptv->tv_usec; //基数
+		g_gettimeofday_saved_usecs_last = (ptv->tv_sec * 1000000LL) + ptv->tv_usec;
 
 	} else {
 
@@ -92,11 +91,14 @@ int new_gettimeofday(struct timeval *ptv, struct timezone *ptz) {
 
 		diff = diff * g_times;
 
-		ret_usecs = g_gettimeofday_saved_usecs + diff;
+		ret_usecs = g_gettimeofday_saved_usecs_last + diff;
+
+		g_gettimeofday_saved_usecs = (ptv->tv_sec * 1000000LL) + ptv->tv_usec;
 
 		ptv->tv_sec = (time_t) (ret_usecs / 1000000LL);
 		ptv->tv_usec = (suseconds_t) (ret_usecs % 1000000LL);
 
+		g_gettimeofday_saved_usecs_last = ret_usecs;
 	}
 	//LOGD("elf_gettimeofday up tv_sec = %ld  tv_usec= %ld\n",ptv->tv_sec, ptv->tv_usec);
 	return 0;
@@ -150,6 +152,10 @@ static int64_t g_clock_gettime_saved_nsecs_clk_MONO = 0;
 
 static uint64_t g_clock_gettime_saved_nsecs_clk_Real = 0;
 
+static int64_t g_clock_gettime_saved_nsecs_clk_MONO_last = 0;
+
+static uint64_t g_clock_gettime_saved_nsecs_clk_Real_last = 0;
+
 int new_clock_gettime(clockid_t clk_id, struct timespec *ptp) { //clk_id CLOCK_MONOTONIC=1 CLOCK_REALTIME=0
 
 	int res;
@@ -178,30 +184,7 @@ int new_clock_gettime(clockid_t clk_id, struct timespec *ptp) { //clk_id CLOCK_M
 
 			+ ptp->tv_nsec;
 
-			return 0;
-
-		} else {
-
-			cur_nsecs = (ptp->tv_sec * 1000000000LL) + ptp->tv_nsec;
-
-			diff = cur_nsecs - g_clock_gettime_saved_nsecs_clk_MONO;
-
-
-			diff = diff + g_times * 10;
-
-			ret_nsecs = g_clock_gettime_saved_nsecs_clk_MONO + diff;
-
-			ptp->tv_sec = (time_t) (ret_nsecs / 1000000000LL);
-
-			ptp->tv_nsec = (long) (ret_nsecs % 1000000000LL);
-
-		}
-
-	} else {
-
-		if (g_clock_gettime_saved_nsecs_clk_Real == 0) {
-
-			g_clock_gettime_saved_nsecs_clk_Real = (ptp->tv_sec * 1000000000LL)
+			g_clock_gettime_saved_nsecs_clk_MONO_last = (ptp->tv_sec * 1000000000LL)
 
 			+ ptp->tv_nsec;
 
@@ -211,16 +194,54 @@ int new_clock_gettime(clockid_t clk_id, struct timespec *ptp) { //clk_id CLOCK_M
 
 			cur_nsecs = (ptp->tv_sec * 1000000000LL) + ptp->tv_nsec;
 
-			diff = cur_nsecs - g_clock_gettime_saved_nsecs_clk_Real;
+			diff = cur_nsecs - g_clock_gettime_saved_nsecs_clk_MONO;
 
-			diff = diff + g_times * 10;
 
-			ret_nsecs = g_clock_gettime_saved_nsecs_clk_Real + diff;
+			diff = diff * g_times ;
+
+			ret_nsecs = g_clock_gettime_saved_nsecs_clk_MONO_last + diff;
+
+			g_clock_gettime_saved_nsecs_clk_MONO = (ptp->tv_sec * 1000000000LL)
+					+ ptp->tv_nsec;
 
 			ptp->tv_sec = (time_t) (ret_nsecs / 1000000000LL);
 
 			ptp->tv_nsec = (long) (ret_nsecs % 1000000000LL);
 
+			g_clock_gettime_saved_nsecs_clk_MONO_last = ret_nsecs;
+		}
+
+	} else {
+
+		if (g_clock_gettime_saved_nsecs_clk_Real == 0) {
+
+			g_clock_gettime_saved_nsecs_clk_Real = (ptp->tv_sec * 1000000000LL)
+
+			+ ptp->tv_nsec;
+			g_clock_gettime_saved_nsecs_clk_Real_last = (ptp->tv_sec * 1000000000LL)
+
+			+ ptp->tv_nsec;
+			return 0;
+
+		} else {
+
+			cur_nsecs = (ptp->tv_sec * 1000000000LL) + ptp->tv_nsec;
+
+			diff = cur_nsecs - g_clock_gettime_saved_nsecs_clk_Real;
+
+			diff = diff * g_times ;
+
+
+			ret_nsecs = g_clock_gettime_saved_nsecs_clk_Real_last + diff;
+
+			g_clock_gettime_saved_nsecs_clk_Real = (ptp->tv_sec * 1000000000LL)
+					+ ptp->tv_nsec;
+
+			ptp->tv_sec = (time_t) (ret_nsecs / 1000000000LL);
+
+			ptp->tv_nsec = (long) (ret_nsecs % 1000000000LL);
+
+			g_clock_gettime_saved_nsecs_clk_Real_last = ret_nsecs;
 		}
 
 	}
@@ -328,7 +349,10 @@ int ElfSpeed::SetTimeScale(float result) {
 		IsHooked = 0;
 	}
 
+	result += 1;
+
 	g_times = result;
+
 	LOGD("result = %f  g_times = %f ", result, g_times);
 	return 0;
 }

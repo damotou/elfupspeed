@@ -138,7 +138,7 @@ void * startClient(void * arg) {
 	return 0;
 }
 
-int serverClient::upspeed(char * package, int speed) {
+int serverClient::upspeed(char * package, float speed) {
 
 	serverClient::pid = find_pid_of(package);
 	serverClient::speed = speed;
