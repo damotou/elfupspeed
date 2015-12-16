@@ -57,7 +57,6 @@ static uint64_t g_gettimeofday_saved_usecs = 0;
 
 static uint64_t g_gettimeofday_saved_usecs_last = 0;
 
-
 static uint64_t g_gettimeofday_saved_usecs_real = 0;
 
 int new_gettimeofday(struct timeval *ptv, struct timezone *ptz) {
@@ -81,7 +80,8 @@ int new_gettimeofday(struct timeval *ptv, struct timezone *ptz) {
 	if (g_gettimeofday_saved_usecs == 0) {
 
 		g_gettimeofday_saved_usecs = (ptv->tv_sec * 1000000LL) + ptv->tv_usec; //基数
-		g_gettimeofday_saved_usecs_last = (ptv->tv_sec * 1000000LL) + ptv->tv_usec;
+		g_gettimeofday_saved_usecs_last = (ptv->tv_sec * 1000000LL)
+				+ ptv->tv_usec;
 
 	} else {
 
@@ -184,7 +184,8 @@ int new_clock_gettime(clockid_t clk_id, struct timespec *ptp) { //clk_id CLOCK_M
 
 			+ ptp->tv_nsec;
 
-			g_clock_gettime_saved_nsecs_clk_MONO_last = (ptp->tv_sec * 1000000000LL)
+			g_clock_gettime_saved_nsecs_clk_MONO_last = (ptp->tv_sec
+					* 1000000000LL)
 
 			+ ptp->tv_nsec;
 
@@ -196,8 +197,7 @@ int new_clock_gettime(clockid_t clk_id, struct timespec *ptp) { //clk_id CLOCK_M
 
 			diff = cur_nsecs - g_clock_gettime_saved_nsecs_clk_MONO;
 
-
-			diff = diff * g_times ;
+			diff = diff * g_times;
 
 			ret_nsecs = g_clock_gettime_saved_nsecs_clk_MONO_last + diff;
 
@@ -218,7 +218,8 @@ int new_clock_gettime(clockid_t clk_id, struct timespec *ptp) { //clk_id CLOCK_M
 			g_clock_gettime_saved_nsecs_clk_Real = (ptp->tv_sec * 1000000000LL)
 
 			+ ptp->tv_nsec;
-			g_clock_gettime_saved_nsecs_clk_Real_last = (ptp->tv_sec * 1000000000LL)
+			g_clock_gettime_saved_nsecs_clk_Real_last = (ptp->tv_sec
+					* 1000000000LL)
 
 			+ ptp->tv_nsec;
 			return 0;
@@ -229,8 +230,7 @@ int new_clock_gettime(clockid_t clk_id, struct timespec *ptp) { //clk_id CLOCK_M
 
 			diff = cur_nsecs - g_clock_gettime_saved_nsecs_clk_Real;
 
-			diff = diff * g_times ;
-
+			diff = diff * g_times;
 
 			ret_nsecs = g_clock_gettime_saved_nsecs_clk_Real_last + diff;
 
@@ -348,11 +348,31 @@ int ElfSpeed::SetTimeScale(float result) {
 		do_speed_hook();
 		IsHooked = 0;
 	}
-
-	result += 1;
-
-	g_times = result;
-
+	if (result >= 0) {
+		result += 1;
+		g_times = result;
+	} else {
+		switch ((int)result) {
+		case -1:
+			g_times = 0.5;
+			break;
+		case -2:
+			g_times = 0.4;
+			break;
+		case -3:
+			g_times = 0.33;
+			break;
+		case -4:
+			g_times = 0.25;
+			break;
+		case -5:
+			g_times = 0.2;
+			break;
+		case -10:
+			g_times = 0.1;
+			break;
+		}
+	}
 	LOGD("result = %f  g_times = %f ", result, g_times);
 	return 0;
 }
