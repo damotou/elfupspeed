@@ -166,7 +166,7 @@ int serverClient::upspeed(char * package, float speed) {
 		//Die("Failed to connect with server");
 		return -1;
 	}
-	sprintf(buf, "%d", serverClient::speed);
+	sprintf(buf, "%f", serverClient::speed);
 	/* Send the word to the server */
 	echolen = strlen(buf);
 	if (send(sock, buf, echolen, 0) != echolen) {
