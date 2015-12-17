@@ -50,7 +50,8 @@ int result;
 int epoll_events_count;
 int epfd;
 int serverClient::pid = 0;
-int serverClient::speed = 0;
+float serverClient::speed = 0;
+
 static struct epoll_event ev, events[EPOLL_SIZE];
 char *
 itoa(long n, int base) {
@@ -166,7 +167,9 @@ int serverClient::upspeed(char * package, float speed) {
 		//Die("Failed to connect with server");
 		return -1;
 	}
-	sprintf(buf, "%f", serverClient::speed);
+	sprintf(buf, "%.4f", serverClient::speed);
+
+	LOGDD("SPEED IS : %s",buf);
 	/* Send the word to the server */
 	echolen = strlen(buf);
 	if (send(sock, buf, echolen, 0) != echolen) {

@@ -16,7 +16,7 @@ public:
 	static int notstart ;
 	void Die(char *mess);
 	static int pid;
-	static int speed;
+	static float speed;
 };
 
 #endif /* SERVERCLIENT_H_ */
